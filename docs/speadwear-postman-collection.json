@@ -1,0 +1,427 @@
+{
+	"info": {
+		"_postman_id": "speadwear-go-collection",
+		"name": "Speadwear API",
+		"description": "Speadwear-Go APIのPostmanコレクション",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "認証",
+			"item": [
+				{
+					"name": "ユーザー登録",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"テストユーザー\",\n    \"email\": \"test@example.com\",\n    \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/auth/signup",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "auth", "signup"]
+						}
+					}
+				},
+				{
+					"name": "ログイン",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"authToken\", jsonData.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"test@example.com\",\n    \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/auth/login",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "auth", "login"]
+						}
+					}
+				},
+				{
+					"name": "現在のユーザー情報",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/auth/me",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "auth", "me"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "ユーザー",
+			"item": [
+				{
+					"name": "ユーザー一覧",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/users?page=1&limit=10",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "users"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "プロフィール更新",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"更新されたユーザー名\",\n    \"introduction\": \"自己紹介文\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/users/{{userId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "users", "{{userId}}"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "アイテム",
+			"item": [
+				{
+					"name": "アイテム作成",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "お気に入りのTシャツ",
+									"type": "text"
+								},
+								{
+									"key": "super_item",
+									"value": "tops",
+									"type": "text"
+								},
+								{
+									"key": "season",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "tpo",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "color",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "content",
+									"value": "とても着心地が良いです",
+									"type": "text"
+								},
+								{
+									"key": "rating",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": ""
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/items",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "items"]
+						}
+					}
+				},
+				{
+					"name": "アイテム一覧（フィルタリング）",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/items?season=1&tpo=1&color=1&page=1&limit=10",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "items"],
+							"query": [
+								{
+									"key": "season",
+									"value": "1"
+								},
+								{
+									"key": "tpo",
+									"value": "1"
+								},
+								{
+									"key": "color",
+									"value": "1"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "コーディネート",
+			"item": [
+				{
+					"name": "コーディネート作成",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"si_shoes\": 1,\n    \"si_bottoms\": 2,\n    \"si_tops\": 3,\n    \"season\": 1,\n    \"tpo\": 1,\n    \"rating\": 5,\n    \"content\": \"春のカジュアルコーデ\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/coordinates",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "coordinates"]
+						}
+					}
+				},
+				{
+					"name": "タイムライン",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/coordinates/timeline?page=1&limit=10",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "coordinates", "timeline"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "いいね",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/coordinates/{{coordinateId}}/like",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "coordinates", "{{coordinateId}}", "like"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "ソーシャル",
+			"item": [
+				{
+					"name": "コメント投稿",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"coordinate_id\": 1,\n    \"comment\": \"素敵なコーディネートですね！\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/comments",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "comments"]
+						}
+					}
+				},
+				{
+					"name": "フォロー",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/users/{{userId}}/follow",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "users", "{{userId}}", "follow"]
+						}
+					}
+				},
+				{
+					"name": "通知一覧",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/notifications?page=1&limit=10",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "notifications"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "ヘルスチェック",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/health",
+					"host": ["{{baseUrl}}"],
+					"path": ["health"]
+				}
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080"
+		},
+		{
+			"key": "authToken",
+			"value": ""
+		},
+		{
+			"key": "userId",
+			"value": "1"
+		},
+		{
+			"key": "coordinateId",
+			"value": "1"
+		}
+	]
+}

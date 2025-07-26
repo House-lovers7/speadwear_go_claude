@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: speadwear_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: speadwear_dev
+      MYSQL_USER: speadwear
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./migrations/init.sql:/docker-entrypoint-initdb.d/init.sql
+    command: --default-authentication-plugin=mysql_native_password
+    networks:
+      - speadwear_network
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: speadwear_app
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      - GIN_MODE=debug
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_USER=speadwear
+      - DB_PASSWORD=password
+      - DB_NAME=speadwear_dev
+    volumes:
+      - .:/app
+      - ./uploads:/app/uploads
+    networks:
+      - speadwear_network
+    command: air
+
+volumes:
+  mysql_data:
+
+networks:
+  speadwear_network:
+    driver: bridge
