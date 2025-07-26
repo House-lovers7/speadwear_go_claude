@@ -15,7 +15,7 @@ run:
 linters-settings:
   typecheck:
     # Treat the code as a program and not just a set of packages
-    go: "1.21"
+    go: "1.23"
   
   govet:
     # report about shadowed variables
