@@ -160,7 +160,7 @@ func TestItemHandler_GetItem(t *testing.T) {
 			c, _ := gin.CreateTestContext(w)
 			c.Request = req
 			c.Params = gin.Params{
-				{Key: "id", Value: tt.itemID},
+				gin.Param{Key: "id", Value: tt.itemID},
 			}
 			
 			// Execute
@@ -375,7 +375,7 @@ func TestItemHandler_DeleteItem(t *testing.T) {
 			c.Request = req
 			c.Set("userID", tt.userID)
 			c.Params = gin.Params{
-				{Key: "id", Value: tt.itemID},
+				gin.Param{Key: "id", Value: tt.itemID},
 			}
 			
 			// Execute

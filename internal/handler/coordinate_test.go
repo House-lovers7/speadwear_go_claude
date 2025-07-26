@@ -323,7 +323,7 @@ func TestCoordinateHandler_GetCoordinate(t *testing.T) {
 			c, _ := gin.CreateTestContext(w)
 			c.Request = req
 			c.Params = gin.Params{
-				{Key: "id", Value: tt.coordinateID},
+				gin.Param{Key: "id", Value: tt.coordinateID},
 			}
 			if tt.setUserID {
 				c.Set("userID", tt.userID)
@@ -549,7 +549,7 @@ func TestCoordinateHandler_LikeCoordinate(t *testing.T) {
 			c.Request = req
 			c.Set("userID", tt.userID)
 			c.Params = gin.Params{
-				{Key: "id", Value: tt.coordinateID},
+				gin.Param{Key: "id", Value: tt.coordinateID},
 			}
 			
 			// Execute
@@ -648,7 +648,7 @@ func TestCoordinateHandler_DeleteCoordinate(t *testing.T) {
 			c.Request = req
 			c.Set("userID", tt.userID)
 			c.Params = gin.Params{
-				{Key: "id", Value: tt.coordinateID},
+				gin.Param{Key: "id", Value: tt.coordinateID},
 			}
 			
 			// Execute

@@ -10,7 +10,9 @@
       "Bash(ls:*)",
       "Bash(chmod:*)",
       "Bash(go build:*)",
-      "Bash(go test:*)"
+      "Bash(go test:*)",
+      "Bash(go:*)",
+      "Bash(grep:*)"
     ],
     "deny": []
   }

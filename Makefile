@@ -99,6 +99,8 @@ docker-down:
 setup:
 	cp .env.example .env
 	go mod download
+	go get github.com/stretchr/testify/mock
+	go mod tidy
 	@echo "Setup complete. Please edit .env file with your database credentials."
 
 # テスト用データベースの作成

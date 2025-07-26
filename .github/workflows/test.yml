@@ -51,7 +51,10 @@ jobs:
             ${{ runner.os }}-go-
 
       - name: Download dependencies
-        run: go mod download
+        run: |
+          go mod download
+          go get github.com/stretchr/testify/mock
+          go mod tidy
 
       - name: Set up test environment
         env:
